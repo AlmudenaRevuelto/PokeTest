@@ -1,6 +1,8 @@
 <?php
 /**
- * Single template para Pokémon usando Twig
+ * Single template for Pokemon using Twig.
+ *
+ * This template gathers single Pokemon data and renders it through View layer.
  */
 
 use PokeTest\Core\View;

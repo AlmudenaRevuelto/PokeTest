@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * PokemonMetaBoxes
+ *
+ * Handles registration, display, and saving of custom meta boxes for Pokemon post type.
+ */
 class PokemonMetaBoxes {
 
     public function __construct() {
@@ -9,6 +14,11 @@ class PokemonMetaBoxes {
 
     }
 
+    /**
+     * registerMetaBoxes
+     *
+     * Register a meta box for Pokemon additional data fields.
+     */
     public function registerMetaBoxes() {
 
         add_meta_box(
@@ -22,6 +32,13 @@ class PokemonMetaBoxes {
 
     }
 
+    /**
+     * renderMetaBox
+     *
+     * Display form fields for Pokemon weight and Pokedex numbers in the meta box.
+     *
+     * @param WP_Post $post Current post object.
+     */
     public function renderMetaBox($post) {
 
         wp_nonce_field('pokemon_meta_box', 'pokemon_meta_box_nonce');
@@ -50,6 +67,14 @@ class PokemonMetaBoxes {
         <?php
     }
 
+    /**
+     * saveMetaBoxes
+     *
+     * Handle save operation for Pokemon custom meta fields.
+     * Performs nonce check, autosave bypass, post type check and sanitization.
+     *
+     * @param int $post_id ID of the current post.
+     */
     public function saveMetaBoxes($post_id) {
 
         if (!isset($_POST['pokemon_meta_box_nonce'])) {

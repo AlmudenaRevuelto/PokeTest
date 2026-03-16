@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * PokemonPostType
+ *
+ * Registers the custom Pokemon post type and taxonomy for the theme.
+ */
 class PokemonPostType {
 
     public function __construct() {
@@ -7,6 +12,11 @@ class PokemonPostType {
         add_action('init', [$this, 'registerTaxonomy']);
     }
 
+    /**
+     * registerPostType
+     *
+     * Register the 'pokemon' custom post type with basic settings and support.
+     */
     public function registerPostType() {
 
         $labels = [
@@ -28,6 +38,11 @@ class PokemonPostType {
         register_post_type('pokemon', $args);
     }
 
+    /**
+     * registerTaxonomy
+     *
+     * Register the 'pokemon_type' hierarchical taxonomy for Pokemon post type.
+     */
     public function registerTaxonomy() {
 
         $labels = [
