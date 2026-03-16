@@ -1,0 +1,31 @@
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+
+            <h1>{{ title }}</h1>
+
+            {% if thumbnail %}
+                <div class="pokemon-image mb-3">
+                    <img src="{{ thumbnail }}" alt="{{ title }}">
+                </div>
+            {% endif %}
+
+            <div class="pokemon-description mb-3">
+                {{ content|raw }}
+            </div>
+
+            <div class="pokemon-meta mb-3">
+                <p><strong>Weight:</strong> {{ weight }}</p>
+
+                <p><strong>Types:</strong> {{ types|join(', ') }}</p>
+
+                <p><strong>Latest Pokedex Number:</strong> {{ latest_pokedex }}</p>
+
+                <p><strong>Old Pokedex Number:</strong> <span id="old-pokedex">—</span>
+                    <button id="show-old-pokedex" class="btn btn-sm btn-primary" data-pokemon-id="{{ id }}">Show</button>
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>

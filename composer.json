@@ -17,7 +17,8 @@
 		}
 	],
 	"require": {
-		"php": "^7.4 || ^8.0"
+		"php": "^7.4 || ^8.0",
+		"twig/twig": "^3.0"
 	},
 	"require-dev": {
 		"dealerdirect/phpcodesniffer-composer-installer": "^1.0",
@@ -52,7 +53,8 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Understrap\\PHPStan\\": "src/phpstan"
+			"Understrap\\PHPStan\\": "src/phpstan",
+			"PokeTest\\": "inc/"
 		}
 	}
 }

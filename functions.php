@@ -43,3 +43,9 @@ if ( class_exists( 'Jetpack' ) ) {
 foreach ( $understrap_includes as $file ) {
 	require_once get_theme_file_path( $understrap_inc_dir . $file );
 }
+
+require_once get_template_directory() . '/vendor/autoload.php';
+require_once get_template_directory() . '/inc/Core/Loader.php';
+
+$loader = new Loader();
+$loader->init();
