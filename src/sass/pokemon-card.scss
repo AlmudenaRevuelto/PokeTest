@@ -38,7 +38,7 @@
     }
   }
 
-  // Bordes por tipo usando atributo data-type
+  // Type-based card border colors using the data-type attribute.
   &[data-type="electric"] { border-color: #FFEB3B; }
   &[data-type="fire"]     { border-color: #F44336; }
   &[data-type="flying"]   { border-color: #03A9F4; }

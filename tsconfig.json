@@ -11,7 +11,7 @@
     "target": "ES6",
     "types": [],
     // For nodejs:
-    // "lib": ["esnext"],
+    "lib": ["esnext", "es2016", "dom"],
     // "types": ["node"],
     // and npm install -D @types/node
 

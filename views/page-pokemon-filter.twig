@@ -1,0 +1,27 @@
+<div class="pokemon-filter">
+    <div class="filter-buttons mb-3">
+        <button type="button" data-type="all" class="btn btn-primary active">All</button>
+        <button type="button" data-type="electric" class="btn btn-secondary">Electric</button>
+        <button type="button" data-type="fire" class="btn btn-secondary">Fire</button>
+        <button type="button" data-type="flying" class="btn btn-secondary">Flying</button>
+        <button type="button" data-type="grass" class="btn btn-secondary">Grass</button>
+        <button type="button" data-type="poison" class="btn btn-secondary">Poison</button>
+    </div>
+
+    <div class="pokemon-grid">
+        {% for p in pokemon %}
+            <div class="pokemon-card" data-type="{{ p.types[0]|default('default') }}" data-types="{{ p.types|join(',') }}">
+                {% if p.thumbnail %}
+                    <div class="pokemon-image">
+                        <img src="{{ p.thumbnail }}" alt="{{ p.title }}">
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="pagination-controls">
+        <button type="button" class="prev-page">Prev</button>
+        <button type="button" class="next-page">Next</button>
+    </div>
+</div>

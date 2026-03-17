@@ -1,0 +1,100 @@
+/* Base responsive grid used to lay out Pokemon cards. */
+.pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)); // 3 columns on desktop
+  gap: 1rem;
+  justify-items: center;
+  align-items: stretch;
+
+  @media (max-width: 992px) {
+    grid-template-columns: repeat(2, 1fr); // 2 columns on tablet
+  }
+
+  @media (max-width: 576px) {
+    grid-template-columns: 1fr; // 1 column on mobile
+  }
+}
+
+/* Compact card style — only applies to cards inside a .pokemon-grid.
+   Scoped to avoid overriding the full-size card on the single pokemon page. */
+.pokemon-grid .pokemon-card {
+  max-width: 220px;  // card width inside the grid
+  width: 100%;
+  padding: 1rem;
+  text-align: center;
+  border: 2px solid #ccc;
+  border-radius: 16px;
+  background: #f9f9f9;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+
+  .pokemon-image img {
+    border-radius: 50%;
+    max-width: 120px;
+    display: block;
+    margin: 0 auto;
+  }
+
+  &:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
+  }
+
+  /* Hide detailed sections (description, stats, moves) in compact grid mode.
+     These are visible on the full single-pokemon page via pokemon-card.scss. */
+  .pokemon-description,
+  .pokemon-meta,
+  .pokemon-moves {
+    display: none;
+  }
+}
+
+/* Page-specific layout rules for the Pokemon filter view. */
+.pokemon-filter .pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  justify-items: center;
+}
+
+.pokemon-filter {
+  margin-top: 1.5rem;
+}
+
+.pokemon-filter .pokemon-card {
+  width: 100%;
+  max-width: 220px;
+  padding: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 16px;
+  background: #f9f9f9;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.pokemon-filter .pokemon-image img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Type-based border colors for filter cards. */
+.pokemon-filter .pokemon-card[data-type="electric"] { border-color: #FFEB3B; }
+.pokemon-filter .pokemon-card[data-type="fire"] { border-color: #F44336; }
+.pokemon-filter .pokemon-card[data-type="flying"] { border-color: #03A9F4; }
+.pokemon-filter .pokemon-card[data-type="grass"] { border-color: #4CAF50; }
+.pokemon-filter .pokemon-card[data-type="poison"] { border-color: #9C27B0; }
+
+@media (max-width: 992px) {
+  .pokemon-filter .pokemon-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 576px) {
+  .pokemon-filter .pokemon-grid {
+    grid-template-columns: 1fr;
+  }
+}

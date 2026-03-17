@@ -44,7 +44,7 @@ if ( ! function_exists( 'understrap_scripts' ) ) {
 			get_template_directory_uri() . '/dist/js/main.js',
 			[],
 			wp_get_theme()->get('Version'),
-			true
+			false
 		);
 
 		wp_localize_script('poke-main', 'wpApiSettings', [
