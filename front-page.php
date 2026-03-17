@@ -10,3 +10,5 @@ $data = [];
 $view = new View(get_template_directory() . '/views');
 $view->render('front-page.twig', $data);
 
+get_footer();
+

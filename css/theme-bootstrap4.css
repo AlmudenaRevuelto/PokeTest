@@ -14125,6 +14125,117 @@ figure.woocommerce-product-gallery__wrapper {
   clip: auto;
 }
 
+#wrapper-navbar {
+  border-bottom: 1px solid #e8edf3;
+  box-shadow: 0 8px 22px rgba(16, 24, 40, 0.05);
+}
+#wrapper-navbar .pt-topbar {
+  background: linear-gradient(90deg, #0f172a 0%, #1f2937 100%);
+  color: #d8e3f0;
+  font-size: 0.83rem;
+  letter-spacing: 0.01em;
+  padding: 0.55rem 0;
+}
+#wrapper-navbar .pt-topbar-message {
+  margin-right: 1rem;
+  opacity: 0.94;
+}
+#wrapper-navbar .pt-topbar-links {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.95rem;
+}
+#wrapper-navbar .pt-topbar-link {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  opacity: 0.9;
+}
+#wrapper-navbar .pt-topbar-link:hover, #wrapper-navbar .pt-topbar-link:focus {
+  opacity: 1;
+  text-decoration: underline;
+}
+#wrapper-navbar .navbar {
+  background: #ffffff;
+}
+
+#wrapper-footer {
+  background: #0f172a;
+  color: #d7deea;
+  margin-top: 3rem;
+  padding: 2.8rem 0 1.1rem;
+}
+#wrapper-footer .site-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 1.7rem;
+}
+#wrapper-footer .pt-footer-title {
+  color: #ffffff;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+#wrapper-footer .pt-footer-description {
+  color: #b9c5d8;
+  line-height: 1.65;
+  max-width: 44ch;
+}
+#wrapper-footer .pt-footer-heading {
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.85rem;
+  text-transform: uppercase;
+}
+#wrapper-footer .pt-footer-links li {
+  margin-bottom: 0.5rem;
+}
+#wrapper-footer .pt-footer-links a {
+  color: #d7deea;
+  text-decoration: none;
+}
+#wrapper-footer .pt-footer-links a:hover, #wrapper-footer .pt-footer-links a:focus {
+  color: #ffffff;
+  text-decoration: underline;
+}
+#wrapper-footer .pt-subfooter {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  color: #a9b7ce;
+  font-size: 0.92rem;
+}
+#wrapper-footer .pt-endpoint-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+#wrapper-footer .pt-endpoint-link {
+  display: inline-block;
+  color: #e5ecf8;
+  text-decoration: none;
+  font-family: Consolas, Monaco, "Courier New", monospace;
+  font-size: 0.82rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  padding: 0.35rem 0.7rem;
+}
+#wrapper-footer .pt-endpoint-link:hover, #wrapper-footer .pt-endpoint-link:focus {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.16);
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  #wrapper-navbar .pt-topbar .container {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  #wrapper-footer {
+    padding-top: 2.2rem;
+  }
+}
 /* Base responsive grid used to lay out Pokemon cards. */
 .pokemon-grid {
   display: grid;

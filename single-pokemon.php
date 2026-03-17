@@ -33,3 +33,5 @@ while (have_posts()) : the_post();
     $view->render('single-pokemon.twig', $pokemon_data);
 
 endwhile;
+
+get_footer();

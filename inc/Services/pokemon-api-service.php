@@ -71,4 +71,60 @@ class PokeApiService {
         return $effect;
     }
 
+    /**
+     * getPokemonDescription
+     *
+     * Fetches the Pokemon species record and extracts an English flavor text.
+     * Data is cached for 24 hours to reduce repeated requests.
+     *
+     * @param string|int $idOrName Pokemon ID or slug.
+     * @return string English description, or empty string on failure.
+     */
+    public function getPokemonDescription($idOrName) {
+
+        $species = rawurlencode((string) $idOrName);
+        $cache_key = 'pokeapi_species_desc_' . md5($species);
+        $cached = get_transient($cache_key);
+
+        if ($cached !== false) {
+            return $cached;
+        }
+
+        $response = wp_remote_get($this->apiUrl . 'pokemon-species/' . $species);
+
+        if (is_wp_error($response)) {
+            return '';
+        }
+
+        $data = json_decode(wp_remote_retrieve_body($response), true);
+        $entries = $data['flavor_text_entries'] ?? [];
+
+        $description = '';
+
+        // Prefer the classic Red version text when available.
+        foreach ($entries as $entry) {
+            if (($entry['language']['name'] ?? '') === 'en' && ($entry['version']['name'] ?? '') === 'red') {
+                $description = (string) ($entry['flavor_text'] ?? '');
+                break;
+            }
+        }
+
+        // Fallback to the first available English flavor text.
+        if ($description === '') {
+            foreach ($entries as $entry) {
+                if (($entry['language']['name'] ?? '') === 'en') {
+                    $description = (string) ($entry['flavor_text'] ?? '');
+                    break;
+                }
+            }
+        }
+
+        $description = trim(str_replace(["\n", "\f"], ' ', $description));
+        $description = preg_replace('/\s+/', ' ', $description) ?: '';
+
+        set_transient($cache_key, $description, DAY_IN_SECONDS);
+
+        return $description;
+    }
+
 }

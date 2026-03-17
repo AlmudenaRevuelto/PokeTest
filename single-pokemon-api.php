@@ -28,6 +28,8 @@ $types = array_map(
     $pokemon['types'] ?? []
 );
 
+$description = $service->getPokemonDescription( (string) ( $pokemon['id'] ?? $pokemon_name ) );
+
 // Fetch the English short_effect for each move from its individual PokeAPI endpoint.
 // Results are cached via transients so repeat page loads are fast.
 $moves = array_map(
@@ -54,7 +56,7 @@ foreach ( $pokemon['game_indices'] ?? [] as $entry ) {
 
 $view_data = [
     'title'          => ucfirst( (string) ( $pokemon['name'] ?? $pokemon_name ) ),
-    'content'        => '<p>Pokemon data loaded live from PokeAPI.</p>',
+    'content'        => '<p>' . esc_html( $description ?: 'No description available.' ) . '</p>',
     'thumbnail'      => $pokemon['sprites']['other']['official-artwork']['front_default']
         ?? ( $pokemon['sprites']['front_default'] ?? '' ),
     'weight'         => PokemonHelper::formatWeight( (int) ( $pokemon['weight'] ?? 0 ) ),

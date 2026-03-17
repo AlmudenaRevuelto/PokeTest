@@ -9,9 +9,8 @@ use PokeTest\Core\View;
 
 get_header();
 
-// --- Query all Pokémon posts ---
-// Fetches every pokemon post in alphabetical order. Pagination is handled
-// client-side in JS, so we retrieve all records here in a single query.
+// Fetch every pokemon post in alphabetical order.
+// Pagination is handled client-side in JS, so all records are loaded here.
 $all_pokemon = get_posts([
     'post_type'      => 'pokemon',
     'posts_per_page' => -1,
@@ -33,6 +32,8 @@ foreach ($all_pokemon as $post) {
     ];
 }
 
-// --- Render Twig ---
+// Render the Twig template with normalized card data.
 $view = new View(get_template_directory() . '/views');
 $view->render('page-pokemon-filter.twig', ['pokemon' => $pokemon_data]);
+
+get_footer();

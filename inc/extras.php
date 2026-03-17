@@ -209,6 +209,23 @@ if ( ! function_exists( 'understrap_hide_posted_by' ) ) {
 add_filter( 'understrap_posted_by', 'understrap_hide_posted_by' );
 
 
+if ( ! function_exists( 'understrap_pokeball_favicon' ) ) {
+	/**
+	 * Output a custom Pokeball favicon for browser tabs.
+	 *
+	 * Applied to both frontend and wp-admin pages so the icon is consistent.
+	 */
+	function understrap_pokeball_favicon() {
+		$icon_uri = get_theme_file_uri( '/assets/admin-icons/pokeball-menu.svg' );
+
+		echo '<link rel="icon" type="image/svg+xml" href="' . esc_url( $icon_uri ) . '">' . "\n";
+		echo '<link rel="shortcut icon" href="' . esc_url( $icon_uri ) . '">' . "\n";
+	}
+}
+add_action( 'wp_head', 'understrap_pokeball_favicon', 2 );
+add_action( 'admin_head', 'understrap_pokeball_favicon', 2 );
+
+
 add_filter( 'excerpt_more', 'understrap_custom_excerpt_more' );
 
 if ( ! function_exists( 'understrap_custom_excerpt_more' ) ) {

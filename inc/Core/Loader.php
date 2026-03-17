@@ -20,10 +20,14 @@ class Loader {
         require_once get_template_directory() . '/inc/Ajax/pokemon-ajax.php';
         require_once get_template_directory() . '/inc/Services/pokemon-api-service.php';
         require_once get_template_directory() . '/inc/Helpers/pokemon-helper.php';
+        require_once get_template_directory() . '/inc/Helpers/pokemon-admin-icon.php';
         require_once get_template_directory() . '/inc/PostTypes/pokemon-meta-boxes.php';
         // Non-class file: registers rewrite rules and template routing for
         // virtual Pokemon API pages (/pokemon-api/{name}/ or ?api_pokemon={name}).
         require_once get_template_directory() . '/inc/Services/pokemon-api-routes.php';
+        require_once get_template_directory() . '/inc/Services/pokemon-random-route.php';
+        require_once get_template_directory() . '/inc/Services/pokemon-generate-route.php';
+        require_once get_template_directory() . '/inc/Services/pokemon-rest-routes.php';
 
         new PokemonPostType();
         new PokemonAjax();

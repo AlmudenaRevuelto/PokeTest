@@ -1,10 +1,10 @@
-// --- Global declaration for WordPress AJAX ---
+// Global declaration for WordPress AJAX settings localized in PHP.
 declare const wpApiSettings: {
     ajax_url: string;
     home_url?: string;
 };
 
-// --- Pokemon Filter ---
+// Initialize type filtering and client-side pagination for Pokemon grids.
 function initPokemonFilter() {
     const buttons = document.querySelectorAll<HTMLButtonElement>('.filter-buttons button');
     const cards = document.querySelectorAll<HTMLDivElement>('.pokemon-grid .pokemon-card');
@@ -78,8 +78,7 @@ function initPokemonFilter() {
     showPage(currentPage);
 }
 
-// --- Pokemon Moves (Admin) ---
-// Handles the dynamic add/remove move UI inside the WordPress post editor meta box.
+// Handle the dynamic add/remove move UI in the WordPress post editor meta box.
 function initPokemonMoves() {
     const list = document.getElementById('pokemon-moves-list');
     const addBtn = document.querySelector('.add-move');
@@ -117,9 +116,8 @@ function initPokemonMoves() {
     });
 }
 
-// --- Show Old Pokedex Button ---
-// Fetches the old Pokédex number and game name for a pokemon via WordPress AJAX.
-// Uses event delegation so it works even if the button is rendered inside a Twig partial.
+// Fetch the old Pokedex number and game name via WordPress AJAX.
+// Event delegation is used so it also works with dynamically rendered content.
 function initOldPokedexButton() {
     document.addEventListener('click', (e) => {
         const target = e.target as HTMLElement;
@@ -238,7 +236,7 @@ function initPokemonApiGrid() {
         .catch(err => console.error('Error loading API pokemon grid:', err));
 }
 
-// --- DOMContentLoaded ---
+// Initialize frontend behaviors once the DOM is ready.
 document.addEventListener('DOMContentLoaded', () => {
     // Front page builds cards asynchronously from PokeAPI, so initialize the
     // filter only after cards/buttons exist (inside initPokemonApiGrid).

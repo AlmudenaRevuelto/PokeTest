@@ -10,8 +10,8 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-$bootstrap_version = get_theme_mod( 'understrap_bootstrap_version', 'bootstrap4' );
-$navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
+$home_url          = home_url( '/' );
+$random_url        = home_url( '/random/' );
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -29,10 +29,24 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
 	<!-- ******************* The Navbar Area ******************* -->
 	<header id="wrapper-navbar">
 
+		<div class="pt-topbar" aria-hidden="true">
+			<div class="container d-flex align-items-center justify-content-between">
+				<p class="pt-topbar-message mb-0">
+					<?php esc_html_e( 'Pokemon encyclopedia, generation tools, and API playground.', 'understrap' ); ?>
+				</p>
+				<div class="pt-topbar-links">
+					<a href="<?php echo esc_url( $home_url ); ?>" class="pt-topbar-link">
+						<?php esc_html_e( 'Home', 'understrap' ); ?>
+					</a>
+					<a href="<?php echo esc_url( $random_url ); ?>" class="pt-topbar-link">
+						<?php esc_html_e( 'Random Pokemon', 'understrap' ); ?>
+					</a>
+				</div>
+			</div>
+		</div>
+
 		<a class="skip-link <?php echo understrap_get_screen_reader_class( true ); ?>" href="#content">
 			<?php esc_html_e( 'Skip to content', 'understrap' ); ?>
 		</a>
-
-		<?php get_template_part( 'global-templates/navbar', $navbar_type . '-' . $bootstrap_version ); ?>
 
 	</header><!-- #wrapper-navbar -->

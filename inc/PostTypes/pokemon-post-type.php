@@ -30,7 +30,7 @@ class PokemonPostType {
             'public' => true,
             'has_archive' => true,
             'rewrite' => ['slug' => 'pokemon'],
-            'menu_icon' => 'dashicons-games',
+            'menu_icon' => PokemonAdminIcon::getMenuIcon(),
             'supports' => ['title','editor','thumbnail'],
             'show_in_rest' => true
         ];
@@ -68,4 +68,5 @@ class PokemonPostType {
 
         register_taxonomy('pokemon_type', ['pokemon'], $args);
     }
+
 }
