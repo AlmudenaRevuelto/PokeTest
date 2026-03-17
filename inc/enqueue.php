@@ -47,8 +47,11 @@ if ( ! function_exists( 'understrap_scripts' ) ) {
 			false
 		);
 
+		// Expose the AJAX endpoint and site root URL to the frontend JS bundle.
+		// home_url is used to build ?api_pokemon= links without hardcoding the domain.
 		wp_localize_script('poke-main', 'wpApiSettings', [
-			'ajax_url' => admin_url('admin-ajax.php')
+			'ajax_url' => admin_url('admin-ajax.php'),
+			'home_url' => home_url('/')
 		]);
 		if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 			wp_enqueue_script( 'comment-reply' );
@@ -72,14 +75,17 @@ add_action( 'admin_enqueue_scripts', function($hook) {
         );
 
         wp_localize_script('pokemon-admin-js', 'wpApiSettings', [
-            'ajax_url' => admin_url('admin-ajax.php')
+			'ajax_url' => admin_url('admin-ajax.php'),
+			'home_url' => home_url('/')
         ]);
     }
 
 });
 
+// Load the full-size pokemon card stylesheet on both WP-post pokemon pages
+// and on the virtual API detail pages routed via the api_pokemon query var.
 add_action('wp_enqueue_scripts', function() {
-    if (is_singular('pokemon')) {
+    if (is_singular('pokemon') || get_query_var('api_pokemon')) {
         wp_enqueue_style(
             'pokemon-card-css',
             get_template_directory_uri() . '/css/pokemon-card.css',

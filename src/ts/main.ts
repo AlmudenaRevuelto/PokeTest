@@ -1,6 +1,7 @@
 // --- Global declaration for WordPress AJAX ---
 declare const wpApiSettings: {
     ajax_url: string;
+    home_url?: string;
 };
 
 // --- Pokemon Filter ---
@@ -41,12 +42,21 @@ function initPokemonFilter() {
     // When a filter button is clicked, update the active type, reset to page 1,
     // toggle the active class, and re-render the grid.
     buttons.forEach(button => {
+        // Avoid attaching duplicate listeners when this initializer runs again.
+        if (button.dataset.filterInit === '1') return;
+        button.dataset.filterInit = '1';
+
         button.addEventListener('click', () => {
             currentType = button.dataset.type || 'all';
             currentPage = 1;
 
-            buttons.forEach(b => b.classList.remove('active'));
+            buttons.forEach(b => {
+                b.classList.remove('active', 'btn-primary');
+                b.classList.add('btn-secondary');
+            });
             button.classList.add('active');
+            button.classList.remove('btn-secondary');
+            button.classList.add('btn-primary');
 
             showPage(currentPage);
         });
@@ -117,6 +127,15 @@ function initOldPokedexButton() {
 
         const postId = target.dataset.pokemonId;
         if (target.id.startsWith('show-old-pokedex')) {
+            // If the value was already resolved server-side (e.g. from PokeAPI),
+            // it is stored in data-old-pokedex and can be shown without an AJAX call.
+            if (target.dataset.oldPokedex) {
+                const span = document.getElementById(`old-pokedex-${postId}`);
+                if (span) span.textContent = target.dataset.oldPokedex;
+                target.remove();
+                return;
+            }
+
             // POST to the WordPress AJAX handler registered under the 'get_old_pokedex' action.
             fetch(wpApiSettings.ajax_url, {
                 method: 'POST',
@@ -131,6 +150,7 @@ function initOldPokedexButton() {
                     if (span) {
                         span.textContent = `${data.data.old_pokedex} (${data.data.game})`;
                     }
+                    target.remove();
                 } else {
                     console.error('Error fetching Old Pokedex:', data);
                 }
@@ -140,10 +160,93 @@ function initOldPokedexButton() {
     });
 }
 
+function initPokemonApiGrid() {
+    const container = document.getElementById('pokemon-api-grid');
+    const filtersContainer = document.getElementById('pokemon-filters');
+
+    if (!container || !filtersContainer) return;
+
+    // Keep "All" and clear previously generated type buttons/cards when reloading.
+    filtersContainer
+        .querySelectorAll<HTMLButtonElement>('button[data-type]:not([data-type="all"])')
+        .forEach(button => button.remove());
+    container.innerHTML = '';
+
+    const minVisibleTypes = 10;
+    const pokemonLimit = 151;
+
+    // Load pokemon first, then derive filter buttons from the real types present
+    // in those pokemon (instead of from the global /type endpoint).
+    fetch(`https://pokeapi.co/api/v2/pokemon?limit=${pokemonLimit}`)
+        .then(res => res.json())
+        .then(data =>
+            Promise.all(
+                data.results.map((pokemon: { url: string }) =>
+                    fetch(pokemon.url).then(res => res.json())
+                )
+            )
+        )
+        .then((pokemonList: any[]) => {
+            const typeFrequency = new Map<string, number>();
+
+            pokemonList.forEach((pokeData: any) => {
+                const types = pokeData.types.map((t: any) => t.type.name as string);
+
+                types.forEach((type: string) => {
+                    typeFrequency.set(type, (typeFrequency.get(type) || 0) + 1);
+                });
+
+                const artwork = pokeData.sprites.other['official-artwork'].front_default || pokeData.sprites.front_default;
+                const baseUrl = wpApiSettings.home_url || `${window.location.origin}/`;
+                // Use query var routing so API detail works even without permalink rewrite refresh.
+                const detailUrl = `${baseUrl}?api_pokemon=${encodeURIComponent(pokeData.name)}`;
+                const card = document.createElement('div');
+                card.className = 'pokemon-card';
+                card.dataset.type = types[0] || 'default';
+                card.dataset.types = types.join(',');
+
+                card.innerHTML = `
+                    <a href="${detailUrl}" class="pokemon-detail-link" aria-label="View ${pokeData.name} details">
+                        <div class="pokemon-image">
+                            <img src="${artwork}" alt="${pokeData.name}">
+                        </div>
+                    </a>
+                `;
+
+                container.appendChild(card);
+            });
+
+            // Use the most frequent types so the first filter set is meaningful.
+            const sortedTypes = Array.from(typeFrequency.entries())
+                .sort((a, b) => b[1] - a[1])
+                .map(([type]) => type);
+
+            const visibleTypes = sortedTypes.slice(0, Math.max(minVisibleTypes, 10));
+
+            visibleTypes.forEach((type: string) => {
+                const btn = document.createElement('button');
+                btn.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+                btn.type = 'button';
+                btn.dataset.type = type;
+                btn.className = 'btn btn-secondary';
+                filtersContainer.appendChild(btn);
+            });
+        })
+        .then(() => {
+            initPokemonFilter();
+        })
+        .catch(err => console.error('Error loading API pokemon grid:', err));
+}
+
 // --- DOMContentLoaded ---
 document.addEventListener('DOMContentLoaded', () => {
-    initPokemonFilter();
+    // Front page builds cards asynchronously from PokeAPI, so initialize the
+    // filter only after cards/buttons exist (inside initPokemonApiGrid).
+    if (!document.getElementById('pokemon-api-grid')) {
+        initPokemonFilter();
+    }
     initPokemonMoves();
     initOldPokedexButton();
+    initPokemonApiGrid();
     console.log('PokeTest frontend loaded');
 });

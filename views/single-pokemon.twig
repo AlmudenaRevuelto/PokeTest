@@ -21,9 +21,12 @@
 
                 <p><strong>Latest Pokedex Number:</strong> {{ latest_pokedex }}</p>
 
-                <p><strong>Old Pokedex Number:</strong> 
+                <p><strong>Old Pokedex Number:</strong>
                     <span id="old-pokedex-{{ id }}">—</span>
-                    <button id="show-old-pokedex-{{ id }}" class="btn btn-sm btn-primary" data-pokemon-id="{{ id }}">
+                    <button id="show-old-pokedex-{{ id }}"
+                            class="btn btn-sm btn-primary"
+                            data-pokemon-id="{{ id }}"
+                            {% if old_pokedex and old_pokedex != '-' %}data-old-pokedex="{{ old_pokedex }}"{% endif %}>
                         Show
                     </button>
                 </p>

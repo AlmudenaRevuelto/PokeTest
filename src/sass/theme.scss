@@ -11,3 +11,5 @@
 
 // Any additional imported files //
 @import "theme/theme";                       // <--- That's where you can add your own design. Thats your part!
+@import "pokemon-card";                      // <--- Styles for the single pokemon page.
+@import "pokemon-grid";                      // <--- Styles for the pokemon grid on the filter page.

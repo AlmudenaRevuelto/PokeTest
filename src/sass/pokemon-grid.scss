@@ -60,6 +60,12 @@
   margin-top: 1.5rem;
 }
 
+.pokemon-filter .filter-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
 .pokemon-filter .pokemon-card {
   width: 100%;
   max-width: 220px;
