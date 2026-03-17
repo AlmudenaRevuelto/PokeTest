@@ -1,6 +1,6 @@
 <div class="container mt-4">
     <div class="row">
-        <div class="col-md-8 offset-md-2">
+        <div class="col-md-8 offset-md-2 pokemon-card" data-type="{{ types[0]|default('default') }}">
 
             <h1>{{ title }}</h1>
 
@@ -21,9 +21,34 @@
 
                 <p><strong>Latest Pokedex Number:</strong> {{ latest_pokedex }}</p>
 
-                <p><strong>Old Pokedex Number:</strong> <span id="old-pokedex">—</span>
-                    <button id="show-old-pokedex" class="btn btn-sm btn-primary" data-pokemon-id="{{ id }}">Show</button>
+                <p><strong>Old Pokedex Number:</strong> 
+                    <span id="old-pokedex-{{ id }}">—</span>
+                    <button id="show-old-pokedex-{{ id }}" class="btn btn-sm btn-primary" data-pokemon-id="{{ id }}">
+                        Show
+                    </button>
                 </p>
+
+                {% if moves %}
+                    <div class="pokemon-moves mt-3">
+                        <h3>Moves</h3>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Move Name</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for move in moves %}
+                                    <tr>
+                                        <td>{{ move.name }}</td>
+                                        <td>{{ move.description }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif %}
             </div>
 
         </div>

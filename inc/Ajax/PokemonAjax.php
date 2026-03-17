@@ -16,8 +16,8 @@ class PokemonAjax {
      * - wp_ajax_nopriv_*: for unauthenticated visitors.
      */
     public function __construct() {
-        add_action('wp_ajax_get_old_pokedex', [$this, 'getOldPokedex']);
-        add_action('wp_ajax_nopriv_get_old_pokedex', [$this, 'getOldPokedex']);
+        add_action('wp_ajax_get_old_pokedex', [$this, 'get_old_pokedex']);
+        add_action('wp_ajax_nopriv_get_old_pokedex', [$this, 'get_old_pokedex']);
     }
 
     /**
@@ -28,11 +28,23 @@ class PokemonAjax {
      *
      * Currently it always returns an empty success response; add data handling.
      */
-    public function getOldPokedex() {
-        // AJAX logic goes here
+    public function get_old_pokedex() {
+        $post_id = intval($_POST['post_id'] ?? 0);
 
-        // Example successful response; adjust with real data as needed.
-        wp_send_json_success();
+        if (!$post_id) {
+            wp_send_json_error(['message' => 'No post ID provided']);
+            wp_die();
+        }
+
+        $old_pokedex = get_post_meta($post_id, '_pokemon_pokedex_old', true);
+        $version_name = 'Red/Blue'; // Adjust this based on your game logic
+
+        wp_send_json_success([
+            'old_pokedex' => $old_pokedex,
+            'game' => $version_name,
+        ]);
+
+        wp_die();
     }
 
 }

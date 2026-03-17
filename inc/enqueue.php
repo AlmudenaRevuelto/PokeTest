@@ -39,6 +39,17 @@ if ( ! function_exists( 'understrap_scripts' ) ) {
 
 		$js_version = $theme_version . '.' . filemtime( get_template_directory() . $theme_scripts );
 		wp_enqueue_script( 'understrap-scripts', get_template_directory_uri() . $theme_scripts, array(), $js_version, true );
+		wp_enqueue_script(
+			'poke-main',
+			get_template_directory_uri() . '/dist/js/main.js',
+			[],
+			wp_get_theme()->get('Version'),
+			true
+		);
+
+		wp_localize_script('poke-main', 'wpApiSettings', [
+			'ajax_url' => admin_url('admin-ajax.php')
+		]);
 		if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 			wp_enqueue_script( 'comment-reply' );
 		}
@@ -46,6 +57,37 @@ if ( ! function_exists( 'understrap_scripts' ) ) {
 } // End of if function_exists( 'understrap_scripts' ).
 
 add_action( 'wp_enqueue_scripts', 'understrap_scripts' );
+
+add_action( 'admin_enqueue_scripts', function($hook) {
+
+    global $post;
+
+    if (($hook === 'post.php' || $hook === 'post-new.php') && isset($post) && $post->post_type === 'pokemon') {
+        wp_enqueue_script(
+            'pokemon-admin-js',
+            get_template_directory_uri() . '/dist/js/main.js',
+            [],
+            filemtime(get_template_directory() . '/dist/js/main.js'),
+            true
+        );
+
+        wp_localize_script('pokemon-admin-js', 'wpApiSettings', [
+            'ajax_url' => admin_url('admin-ajax.php')
+        ]);
+    }
+
+});
+
+add_action('wp_enqueue_scripts', function() {
+    if (is_singular('pokemon')) {
+        wp_enqueue_style(
+            'pokemon-card-css',
+            get_template_directory_uri() . '/css/pokemon-card.css',
+            [],
+            wp_get_theme()->get('Version')
+        );
+    }
+});
 
 if ( ! function_exists( 'understrap_offcanvas_admin_bar_inline_styles' ) ) {
 	/**

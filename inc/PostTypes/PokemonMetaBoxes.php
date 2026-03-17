@@ -22,8 +22,8 @@ class PokemonMetaBoxes {
     public function registerMetaBoxes() {
 
         add_meta_box(
-            'pokemon_data',
-            'Pokemon Data',
+            'pokemon_moves',
+            'Pokemon Moves',
             [$this, 'renderMetaBox'],
             'pokemon',
             'normal',
@@ -46,6 +46,7 @@ class PokemonMetaBoxes {
         $weight = get_post_meta($post->ID, '_pokemon_weight', true);
         $pokedex_old = get_post_meta($post->ID, '_pokemon_pokedex_old', true);
         $pokedex_latest = get_post_meta($post->ID, '_pokemon_pokedex_latest', true);
+        $moves = get_post_meta($post->ID, '_pokemon_moves', true) ?: [];
 
         ?>
 
@@ -63,6 +64,31 @@ class PokemonMetaBoxes {
             <label><strong>Latest Pokedex Number</strong></label><br>
             <input type="number" name="pokemon_pokedex_latest" value="<?php echo esc_attr($pokedex_latest); ?>" />
         </p>
+
+        <hr>
+        <h4>Moves</h4>
+
+        <button type="button" class="button add-move">Add Move</button>
+
+        <ul id="pokemon-moves-list">
+            <?php foreach ($moves as $index => $move): ?>
+                <li>
+                    <input 
+                        type="text" 
+                        name="pokemon_moves[<?php echo $index; ?>][name]" 
+                        value="<?php echo esc_attr($move['name']); ?>" 
+                        placeholder="Move Name"
+                    />
+
+                    <textarea 
+                        name="pokemon_moves[<?php echo $index; ?>][description]" 
+                        placeholder="Move Description"
+                    ><?php echo esc_textarea($move['description']); ?></textarea>
+
+                    <button type="button" class="button remove-move">Remove</button>
+                </li>
+            <?php endforeach; ?>
+        </ul>
 
         <?php
     }
@@ -103,6 +129,27 @@ class PokemonMetaBoxes {
 
         if (isset($_POST['pokemon_pokedex_latest'])) {
             update_post_meta($post_id, '_pokemon_pokedex_latest', sanitize_text_field($_POST['pokemon_pokedex_latest']));
+        }
+
+        // Moves
+        if (isset($_POST['pokemon_moves'])) {
+
+            $moves = $_POST['pokemon_moves'];
+            $sanitized_moves = [];
+
+            foreach ($moves as $move) {
+
+                if (empty($move['name']) && empty($move['description'])) {
+                    continue;
+                }
+
+                $sanitized_moves[] = [
+                    'name' => sanitize_text_field($move['name'] ?? ''),
+                    'description' => sanitize_textarea_field($move['description'] ?? '')
+                ];
+            }
+
+            update_post_meta($post_id, '_pokemon_moves', $sanitized_moves);
         }
     }
 }

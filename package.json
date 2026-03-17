@@ -2,6 +2,7 @@
   "name": "understrap",
   "version": "1.2.4",
   "description": "WordPress Theme framework",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "bs": "browser-sync start --config src/build/browser-sync.config.js",
@@ -26,7 +27,11 @@
     "copy-assets": "node src/build/copy-assets.js",
     "dist": "npm-run-all --parallel css js css-bs4 js-bs4",
     "dist-build": "node src/build/dist-build.js",
-    "dist-clean": "node src/build/dist-clean.js"
+    "dist-clean": "node src/build/dist-clean.js",
+    "build": "npm-run-all js css",
+    "build-ts": "rollup -c src/build/rollup.ts.config.js",
+    "watch-ts": "rollup -c src/build/rollup.ts.config.js -w",
+    "css-pokemon": "sass --style=expanded --source-map src/sass/pokemon-card.scss:css/pokemon-card.css"
   },
   "babel": {
     "extends": "./src/build/babel.config.js"
@@ -62,6 +67,7 @@
     "@rollup/plugin-multi-entry": "^6.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-replace": "^5.0.5",
+    "@rollup/plugin-typescript": "^12.3.0",
     "autoprefixer": "^10.4.19",
     "bootstrap": "~5.2.3",
     "bootstrap4": "npm:bootstrap@^4.6.2",
@@ -76,9 +82,10 @@
     "postcss": "^8.4.38",
     "postcss-cli": "^11.0.0",
     "postcss-understrap-palette-generator": "git+https://github.com/understrap/postcss-understrap-palette-generator.git",
-    "rollup": "^4.13.0",
+    "rollup": "^4.59.0",
     "sass": "^1.72.0",
     "terser": "^5.29.2",
+    "tslib": "^2.8.1",
     "typescript": "^5.9.3"
   }
 }

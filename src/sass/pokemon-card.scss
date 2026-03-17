@@ -1,0 +1,47 @@
+.pokemon-card {
+  border: 2px solid #ccc;
+  border-radius: 16px;
+  padding: 1rem;
+  background: #f9f9f9;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  max-width: 500px;
+  margin: 1rem auto;
+  text-align: center;
+
+  .pokemon-image img {
+    border-radius: 50%;
+    max-width: 200px;
+  }
+
+  .pokemon-description {
+    margin: 1rem 0;
+    font-size: 1.1rem;
+  }
+
+  .pokemon-meta p {
+    margin: 0.5rem 0;
+  }
+
+  .pokemon-moves {
+    margin-top: 1rem;
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      th, td {
+        border: 1px solid #ddd;
+        padding: 0.5rem;
+      }
+      th {
+        background: #eee;
+      }
+    }
+  }
+
+  // Bordes por tipo usando atributo data-type
+  &[data-type="electric"] { border-color: #FFEB3B; }
+  &[data-type="fire"]     { border-color: #F44336; }
+  &[data-type="flying"]   { border-color: #03A9F4; }
+  &[data-type="grass"]    { border-color: #4CAF50; }
+  &[data-type="poison"]   { border-color: #9C27B0; }
+}
